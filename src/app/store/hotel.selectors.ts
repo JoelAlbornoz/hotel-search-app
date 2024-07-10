@@ -19,3 +19,8 @@ export const selectHotelError = createSelector(
   selectHotelState,
   (state: HotelState) => state.error
 );
+
+export const selectSelectedHotelId = createSelector(
+  selectHotelState,
+  (state: HotelState) => state.selectedHotelId
+);

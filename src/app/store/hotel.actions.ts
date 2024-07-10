@@ -25,7 +25,7 @@ export const searchHotelsFailure = createAction(
 
 import { Hotel } from '../models/hotel';
 
-export const selectHotel = createAction(
-  '[Hotel] Select Hotel',
-  props<{ hotel: Hotel }>()
+export const setSelectedHotel = createAction(
+  '[Hotel] Set Selected Hotel',
+  props<{ hotelId: string }>()
 );

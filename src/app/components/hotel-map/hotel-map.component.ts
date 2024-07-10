@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import * as L from 'leaflet';
 import * as HotelSelectors from '../../store/hotel.selectors';
 import { CommonModule } from '@angular/common';
+import * as HotelActions from '../../store/hotel.actions';
 import { Hotel } from '../../models/hotel';
 
 @Component({
@@ -70,11 +71,11 @@ export class HotelMapComponent implements AfterViewInit {
   }
 
   private onMarkerClick(hotel: Hotel) {
-    console.log('Marker clicked:', hotel.name);
+    this.store.dispatch(HotelActions.setSelectedHotel({ hotelId: hotel.id }));
     const popup = L.popup()
       .setLatLng([hotel.location.latitude, hotel.location.longitude])
       .setContent(
-        `<img src="${hotel.image}" alt="${hotel.name}" style="max-width: 200px;"><br>${hotel.name}`
+        `<img src="${hotel.image}" alt="${hotel.name}" style="max-width: 300px; padding: 10px;" border-width="1" border-style="solid", border-radius="5px"><br>${hotel.name}`
       )
       .openOn(this.map);
   }

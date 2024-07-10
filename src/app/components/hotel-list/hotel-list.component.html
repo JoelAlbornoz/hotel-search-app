@@ -1,7 +1,13 @@
 <mat-list *ngIf="hotels$ | async as hotels" class="hotel-list">
-  <mat-list-item *ngFor="let hotel of hotels">
-    <h3 matListItemTitle>{{ hotel.name }}</h3>
-    <p matListItemLine>Price: {{ hotel.total_cost }} USD</p>
-    <p matListItemLine>Rating: {{ hotel.star_rating }}/5</p>
-  </mat-list-item>
+  <ng-container *ngIf="selectedHotelId$ | async as selectedHotelId">
+    <mat-list-item
+      *ngFor="let hotel of hotels"
+      [class.selected]="hotel.id === selectedHotelId"
+      #hotelItem
+    >
+      <h3 matListItemTitle>{{ hotel.name }}</h3>
+      <p matListItemLine>Price: {{ hotel.total_cost }} USD</p>
+      <p matListItemLine>Rating: {{ hotel.star_rating }}/5</p>
+    </mat-list-item>
+  </ng-container>
 </mat-list>
