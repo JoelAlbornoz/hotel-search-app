@@ -4,7 +4,8 @@ Proyecto desarrollado con Angular, utilizando principalmente las librerías Leaf
 
 ## Funcionalidades
 
-✅Implementación de formulario
+✅Implementación de formulario  
+
 ✅Llamadas a API utilizando NgRx Effects
 ✅Persistencia de datos en el store
 ✅Mapeado de datos a una lista y a marcadores en un mapa
