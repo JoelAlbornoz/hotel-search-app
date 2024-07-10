@@ -1,25 +1,26 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as L from 'leaflet';
 import * as HotelSelectors from '../../store/hotel.selectors';
+import { CommonModule } from '@angular/common';
+import { Hotel } from '../../models/hotel';
 
 @Component({
   selector: 'app-hotel-map',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './hotel-map.component.html',
   styleUrl: './hotel-map.component.sass',
 })
-export class HotelMapComponent implements OnInit, AfterViewInit {
-  private map: L.Map = L.map('map').setView([0, 0], 2);
-  hotels$: Observable<any[]>;
+export class HotelMapComponent implements AfterViewInit {
+  @ViewChild('map') private mapContainer!: ElementRef;
+  private map!: L.Map;
+  hotels$: Observable<Hotel[]>;
 
   constructor(private store: Store) {
     this.hotels$ = this.store.pipe(select(HotelSelectors.selectAllHotels));
   }
-
-  ngOnInit() {}
 
   ngAfterViewInit() {
     this.initMap();
@@ -27,26 +28,51 @@ export class HotelMapComponent implements OnInit, AfterViewInit {
   }
 
   private initMap() {
-    this.map = L.map('map').setView([0, 0], 2);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(
-      this.map
-    );
+    if (this.mapContainer) {
+      this.map = L.map(this.mapContainer.nativeElement).setView([0, 0], 2);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(
+        this.map
+      );
+    }
+
+    setTimeout(() => {
+      this.map.invalidateSize();
+    }, 0);
   }
 
   private loadHotels() {
+    const markers: L.Marker[] = [];
     this.hotels$.subscribe((hotels) => {
       hotels.forEach((hotel) => {
-        const marker = L.marker([hotel.latitude, hotel.longitude]).addTo(
-          this.map
-        );
-        marker.on('click', () => this.onMarkerClick(hotel));
+        if (
+          typeof hotel.location.latitude === 'number' &&
+          typeof hotel.location.longitude === 'number'
+        ) {
+          const marker = L.marker([
+            hotel.location.latitude,
+            hotel.location.longitude,
+          ]).addTo(this.map);
+          marker.on('click', () => this.onMarkerClick(hotel));
+
+          markers.push(marker);
+        } else {
+          console.warn(`Invalid coordinates for hotel: ${hotel.name}`);
+        }
+
+        const group = L.featureGroup(markers);
+
+        // Zoom the map to fit all markers
+        this.map.fitBounds(group.getBounds(), {
+          padding: [50, 50], // Add some padding around the bounds
+        });
       });
     });
   }
 
-  private onMarkerClick(hotel: any) {
+  private onMarkerClick(hotel: Hotel) {
+    console.log('Marker clicked:', hotel.name);
     const popup = L.popup()
-      .setLatLng([hotel.latitude, hotel.longitude])
+      .setLatLng([hotel.location.latitude, hotel.location.longitude])
       .setContent(
         `<img src="${hotel.image}" alt="${hotel.name}" style="max-width: 200px;"><br>${hotel.name}`
       )

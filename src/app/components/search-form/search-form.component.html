@@ -1,1 +1,48 @@
-<p>search-form works!</p>
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-form">
+  <mat-form-field appearance="fill">
+    <mat-label>Destination</mat-label>
+    <input
+      matInput
+      formControlName="destination"
+      placeholder="Enter destination"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Check-in</mat-label>
+    <input matInput [matDatepicker]="checkinPicker" formControlName="checkin" />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="checkinPicker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #checkinPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Check-out</mat-label>
+    <input
+      matInput
+      [matDatepicker]="checkoutPicker"
+      formControlName="checkout"
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="checkoutPicker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #checkoutPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Guests</mat-label>
+    <input matInput type="number" formControlName="guests" min="1" />
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="!searchForm.valid"
+  >
+    Search
+  </button>
+</form>
