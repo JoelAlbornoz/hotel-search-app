@@ -5,10 +5,10 @@ import { map, mergeMap, catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import * as HotelActions from './hotel.actions';
 import { Router } from '@angular/router';
+import { Hotel } from '../models/hotel';
 
 interface HotelApiResponse {
-  hotels: any[]; // Replace 'any' with a more specific type if you know the hotel structure
-  // Add other properties that the API returns, if any
+  hotels: Hotel[];
 }
 
 @Injectable()

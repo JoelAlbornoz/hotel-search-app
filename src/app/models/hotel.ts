@@ -17,15 +17,15 @@ export interface Hotel {
     viewing_count: number;
     latest_viewing_date: string;
     geography_score: number;
-    [key: string]: any; // for other potential properties
+    [key: string]: any;
   };
   nights: number;
   position: number;
   id90: string;
   displayable_id: string;
   ratings: {
-    property: any; // You might want to define a more specific structure here
-    guest: any; // You might want to define a more specific structure here
+    property: any;
+    guest: any;
   };
   star_rating: number;
   review_rating: number;
@@ -47,7 +47,7 @@ export interface Hotel {
     EPS: number;
     BKG: number;
   };
-  comparison_prices: any[]; // You might want to define a more specific structure here
+  comparison_prices: any[];
   distance: number;
   distance_to_airports: {
     [airportCode: string]: number;

@@ -62,9 +62,8 @@ export class HotelMapComponent implements AfterViewInit {
 
         const group = L.featureGroup(markers);
 
-        // Zoom the map to fit all markers
         this.map.fitBounds(group.getBounds(), {
-          padding: [50, 50], // Add some padding around the bounds
+          padding: [50, 50],
         });
       });
     });

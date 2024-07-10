@@ -60,7 +60,6 @@ export class SearchFormComponent {
   }
 
   parseToBackend(data: any) {
-    //change checkin and checkout format to  YYYY-MM-DD
     const checkin = new Date(data.checkin).toISOString().split('T')[0];
     const checkout = new Date(data.checkout).toISOString().split('T')[0];
     return {
