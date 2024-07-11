@@ -1,10 +1,10 @@
 <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-form">
-  <mat-form-field appearance="fill">
-    <mat-label>Destination</mat-label>
+  <mat-form-field>
     <input
       matInput
+      placeholder="Destination"
       formControlName="destination"
-      placeholder="Enter destination"
+      #search
     />
   </mat-form-field>
 
